@@ -1,0 +1,17 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://cerebron.local/schemas/f173-live-response-v1.json",
+  "title": "F173 Live Response V1",
+  "type": "object",
+  "required": ["event_id", "status", "text", "claim_ceiling"],
+  "properties": {
+    "event_id": {"type": "string"},
+    "status": {"enum": ["READY", "HOLD", "DENY"]},
+    "text": {"type": "string"},
+    "evidence_refs": {"type": "array", "items": {"type": "string"}},
+    "claim_ceiling": {"type": "string"},
+    "voice_ready": {"type": "boolean"},
+    "avatar_ready": {"type": "boolean"}
+  },
+  "additionalProperties": false
+}
