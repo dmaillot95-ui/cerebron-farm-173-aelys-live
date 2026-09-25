@@ -1,0 +1,49 @@
+name: F173 AELYS Local HTTP Loopback Canary
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - "canary/local_http_loopback_canary.py"
+      - "tests/test_local_http_loopback_canary.py"
+      - ".github/workflows/f173-http-loopback-canary.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  http-canary:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: python -m pip install --quiet pytest
+      - name: Execute HTTP loopback canary
+        run: PYTHONPATH=. python canary/local_http_loopback_canary.py
+      - name: Test HTTP loopback canary
+        run: PYTHONPATH=. python -m pytest -q tests/test_local_http_loopback_canary.py
+      - name: Verify loopback boundaries
+        run: |
+          python - <<'PY'
+          import json
+          p=json.load(open("artifacts/f173_http_loopback_canary.json"))
+          assert p["http_status"]==200
+          assert p["transport"]=="HTTP_LOOPBACK"
+          assert p["bind"]=="127.0.0.1"
+          assert p["response"]["presentation_status"]=="HOLD"
+          assert p["response"]["raw_user_ref_persisted"] is False
+          assert p["external_endpoint_used"] is False
+          assert p["paid_provider_used"] is False
+          assert p["production_live_claimed"] is False
+          assert p["training_executed"] is False
+          print("F173_HTTP_LOOPBACK_BOUNDARIES=PASS")
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: f173-http-loopback-canary
+          path: artifacts/f173_http_loopback_canary.json
+          if-no-files-found: error
+          retention-days: 30
