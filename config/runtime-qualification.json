@@ -1,0 +1,56 @@
+{
+  "schema": "F173_RUNTIME_QUALIFICATION_V1",
+  "farm_id": 173,
+  "identity": "AELYS",
+  "overall_status": "LOCAL_CONTRACTS_QUALIFIED_EXTERNAL_RUNTIME_UNQUALIFIED",
+  "qualified_local": [
+    {
+      "capability": "event.normalize",
+      "status": "LOCAL_CONTRACT_PASS",
+      "evidence": "tests/test_fail_closed.py"
+    },
+    {
+      "capability": "plugin.request.compose",
+      "status": "LOCAL_CONTRACT_PASS",
+      "evidence": "tests/test_fail_closed.py"
+    },
+    {
+      "capability": "presenter.compose",
+      "status": "LOCAL_CONTRACT_PRESENT_IMPLEMENTATION",
+      "evidence": "presenter/aelys_presenter.py"
+    },
+    {
+      "capability": "rdx.route",
+      "status": "LOCAL_ROUTING_CONTRACT_PASS",
+      "provider": "RDX_EXCHANGE",
+      "evidence": "tests/test_fail_closed.py"
+    }
+  ],
+  "unqualified_external": [
+    "private_client_web",
+    "tiktok_live",
+    "voice_input",
+    "tts",
+    "avatar_runtime",
+    "rdx.remote_endpoint",
+    "memory.remote_runtime",
+    "evidence.remote_runtime",
+    "governor.remote_runtime",
+    "afah.remote_runtime"
+  ],
+  "activation_required": [
+    "REAL_ENDPOINT_OR_RUNTIME",
+    "CANARY_SUCCESS",
+    "TRACE_OR_ARTIFACT",
+    "FAIL_CLOSED_TEST",
+    "NO_PAID_PROVIDER_AUTO_ACTIVATION"
+  ],
+  "invariants": {
+    "production_live": false,
+    "training_executed": false,
+    "weights_changed": false,
+    "automatic_external_calls": false,
+    "f152_routes_rdx": false,
+    "rdx_provider": "RDX_EXCHANGE"
+  }
+}
