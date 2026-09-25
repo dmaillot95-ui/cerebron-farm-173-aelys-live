@@ -48,7 +48,7 @@ def test_runtime_qualification_stays_evidence_safe():
     assert q["invariants"]["automatic_external_calls"] is False
     assert q["invariants"]["f152_routes_rdx"] is False
     assert q["invariants"]["rdx_provider"]=="RDX_EXCHANGE"
-    assert "tts" in q["unqualified_external"]
+    assert "tts.external_runtime" in q["unqualified_external"]
     assert "avatar_runtime" in q["unqualified_external"]
 
 
@@ -62,3 +62,18 @@ def test_local_live_loop_canary_evidence_is_fail_closed():
     assert c["production_live_claimed"] is False
     assert c["avatar_runtime"]=="UNQUALIFIED"
     assert c["presentation_status"]=="HOLD"
+
+
+def test_local_tts_canary_evidence_is_bounded():
+    q=json.loads((Path(__file__).resolve().parents[1] / "config/runtime-qualification.json").read_text())
+    t=q["local_tts_canary"]
+    assert t["status"]=="PASS"
+    assert t["run_id"]==36163338754
+    assert t["engine"]=="espeak-ng"
+    assert t["wav_bytes"]==166854
+    assert t["wav_sha256"]=="71eea3f77b68a77b5ca773950c961f63d38b4f33ed06cffcab57c325e56a2e9e"
+    assert t["external_service_used"] is False
+    assert t["paid_provider_used"] is False
+    assert t["production_live_claimed"] is False
+    assert t["voice_identity_claimed"] is False
+    assert "tts.external_runtime" in q["unqualified_external"]
