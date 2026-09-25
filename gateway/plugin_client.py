@@ -7,8 +7,8 @@ class PluginClientError(RuntimeError):
     pass
 
 CAPABILITY_PROVIDER={
-  "rdx.search":"F152_RDX",
-  "rdx.fetch":"F152_RDX",
+  "rdx.search":"RDX_EXCHANGE",
+  "rdx.fetch":"RDX_EXCHANGE",
   "memory.canonical_lookup":"F114",
   "memory.semantic_recall":"F115",
   "memory.lineage_check":"F116",
