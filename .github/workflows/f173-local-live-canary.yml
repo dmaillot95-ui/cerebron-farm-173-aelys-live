@@ -23,6 +23,8 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
+      - name: Install test dependency
+        run: python -m pip install --quiet pytest
       - name: Execute local fail-closed canary
         run: PYTHONPATH=. python canary/local_live_loop_canary.py
       - name: Run canary tests
