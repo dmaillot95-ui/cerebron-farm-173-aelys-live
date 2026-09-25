@@ -21,7 +21,7 @@ def test_live_event_never_training_eligible():
 
 def test_plugin_request_never_training_eligible():
     out=make_request("R1","rdx.search",{"query":"test"})
-    assert out["provider"]=="F152_RDX"
+    assert out["provider"]=="RDX_EXCHANGE"
     assert out["training_eligible"] is False
     assert len(out["sha256"])==64
 
