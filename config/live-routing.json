@@ -1,0 +1,36 @@
+{
+  "schema": "F173_LIVE_ROUTING_V1",
+  "farm_id": 173,
+  "status": "ROUTING_DEFINED_ADAPTERS_UNQUALIFIED",
+  "ingress": {
+    "private_client_web": "UNQUALIFIED",
+    "tiktok_live": "UNQUALIFIED",
+    "text": "SCHEMA_READY",
+    "voice": "UNQUALIFIED"
+  },
+  "knowledge_route": [
+    "F152_RDX",
+    "NEXUS_ROUTER",
+    "F114_CANONICAL_INDEX",
+    "F115_VECTOR_MEMORY",
+    "F119_EVIDENCE_ARCHIVE",
+    "F116_LINEAGE_CHECK",
+    "F120_GOVERNOR"
+  ],
+  "presentation_route": [
+    "AELYS_PRESENTER",
+    "ELYRA_AVATAR"
+  ],
+  "egress": {
+    "private_client_web": "UNQUALIFIED",
+    "tiktok_live": "UNQUALIFIED",
+    "tts": "UNQUALIFIED",
+    "avatar_runtime": "UNQUALIFIED"
+  },
+  "gates": {
+    "global_f72": "FAIL",
+    "m4_gold": "BLOCKED",
+    "rdx_neural_training": "DENY",
+    "m6_training": "DENY"
+  }
+}
