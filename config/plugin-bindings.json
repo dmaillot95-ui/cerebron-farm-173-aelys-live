@@ -1,18 +1,37 @@
 {
   "schema": "F173_PLUGIN_BINDINGS_V1",
   "farm_id": 173,
-  "status": "BOUND_NOT_RUNTIME_QUALIFIED",
+  "status": "MASTER_BUS_DECLARED_RUNTIME_UNQUALIFIED",
   "master_registry": "dmaillot95-ui/cerebron-omega-ai:config/cerebron-unified-plugin-bus-v1.json",
   "providers": {
-    "F152_RDX": ["rdx.search", "rdx.fetch"],
-    "F114": ["memory.canonical_lookup"],
-    "F115": ["memory.semantic_recall"],
-    "F116": ["memory.lineage_check"],
-    "F119": ["evidence.fetch"],
-    "F120": ["governor.check"],
-    "AELYS": ["presenter.compose"],
-    "ELYRA": ["avatar.speak"],
-    "AFAH": ["audit.review"]
+    "F114": [
+      "memory.canonical_lookup"
+    ],
+    "F115": [
+      "memory.semantic_recall"
+    ],
+    "F116": [
+      "memory.lineage_check"
+    ],
+    "F119": [
+      "evidence.fetch"
+    ],
+    "F120": [
+      "governor.check"
+    ],
+    "AELYS": [
+      "presenter.compose"
+    ],
+    "ELYRA": [
+      "avatar.speak"
+    ],
+    "AFAH": [
+      "audit.review"
+    ],
+    "RDX_EXCHANGE": [
+      "rdx.search",
+      "rdx.fetch"
+    ]
   },
   "hf_private_memory": {
     "repo_id": "cerebron-omega/cerebron-private-memory",
@@ -24,5 +43,12 @@
     "PRIVATE_CLIENT_PAYLOAD_NEVER_PUBLIC_GITHUB",
     "NO_AUTOMATIC_TRAINING_FROM_LIVE_INPUT",
     "CLAIM_LE_EVIDENCE"
-  ]
+  ],
+  "provider_metadata": {
+    "RDX_EXCHANGE": {
+      "kind": "EXTERNAL_REPOSITORY_SERVICE",
+      "repository": "dmaillot95-ui/cerebron-rdx-exchange",
+      "runtime_endpoint_status": "UNBOUND"
+    }
+  }
 }
