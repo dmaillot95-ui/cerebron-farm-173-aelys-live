@@ -2,7 +2,7 @@
   "schema": "F173_RUNTIME_QUALIFICATION_V1",
   "farm_id": 173,
   "identity": "AELYS",
-  "overall_status": "LOCAL_CONTRACTS_QUALIFIED_EXTERNAL_RUNTIME_UNQUALIFIED",
+  "overall_status": "LOCAL_LIVE_LOOP_CANARY_PASS_EXTERNAL_RUNTIME_UNQUALIFIED",
   "qualified_local": [
     {
       "capability": "event.normalize",
@@ -24,6 +24,13 @@
       "status": "LOCAL_ROUTING_CONTRACT_PASS",
       "provider": "RDX_EXCHANGE",
       "evidence": "tests/test_fail_closed.py"
+    },
+    {
+      "capability": "live.loop.local_canary",
+      "status": "LOCAL_CANARY_PASS",
+      "evidence": "run:36162553038",
+      "artifact_id": 10876417068,
+      "result_sha256": "a860b0f9becd088496c6580b6febd608af0964e73c10b6ac04452048326fb3a4"
     }
   ],
   "unqualified_external": [
@@ -52,5 +59,19 @@
     "automatic_external_calls": false,
     "f152_routes_rdx": false,
     "rdx_provider": "RDX_EXCHANGE"
+  },
+  "local_live_loop_canary": {
+    "status": "PASS",
+    "run_id": 36162553038,
+    "head_sha": "bcbddc63c14785720c76795df64bb3e3a49d1e71",
+    "scenario_id": "F173-CANARY-001",
+    "result_sha256": "a860b0f9becd088496c6580b6febd608af0964e73c10b6ac04452048326fb3a4",
+    "artifact_id": 10876417068,
+    "artifact_name": "f173-local-live-loop-canary",
+    "artifact_digest": "sha256:0a607e3aa5e0c82b46fa33a85d7b37fd26bd62a3833655516d3041e90f957303",
+    "external_calls_executed": false,
+    "production_live_claimed": false,
+    "avatar_runtime": "UNQUALIFIED",
+    "presentation_status": "HOLD"
   }
 }
