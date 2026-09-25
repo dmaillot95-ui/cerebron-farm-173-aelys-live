@@ -77,3 +77,17 @@ def test_local_tts_canary_evidence_is_bounded():
     assert t["production_live_claimed"] is False
     assert t["voice_identity_claimed"] is False
     assert "tts.external_runtime" in q["unqualified_external"]
+
+
+def test_local_session_replay_canary_evidence_is_bounded():
+    q=json.loads((Path(__file__).resolve().parents[1] / "config/runtime-qualification.json").read_text())
+    r=q["local_session_replay_canary"]
+    assert r["status"]=="PASS"
+    assert r["run_id"]==36163483531
+    assert r["events"]==3
+    assert r["final_trace_hash"]=="abcc5451ebbcb0965a9f220d8b445b2504ff97471e8dba1cbc1426ce9dc783b8"
+    assert r["result_sha256"]=="785eef06fa1357f513dbbee3f5dd87e9f36949a4e63588df67c4fffe6c404510"
+    assert r["external_calls_executed"] is False
+    assert r["production_live_claimed"] is False
+    assert r["avatar_runtime"]=="UNQUALIFIED"
+    assert r["presentation_status"]=="HOLD"
