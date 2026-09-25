@@ -1,0 +1,47 @@
+name: F173 AELYS Local Session Replay Canary
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - "canary/local_session_replay_canary.py"
+      - "tests/test_local_session_replay_canary.py"
+      - ".github/workflows/f173-session-replay-canary.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  replay-canary:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: python -m pip install --quiet pytest
+      - name: Execute deterministic session replay
+        run: PYTHONPATH=. python canary/local_session_replay_canary.py
+      - name: Test session replay
+        run: PYTHONPATH=. python -m pytest -q tests/test_local_session_replay_canary.py
+      - name: Verify replay boundaries
+        run: |
+          python - <<'PY'
+          import json
+          p=json.load(open("artifacts/f173_session_replay_canary.json"))
+          assert len(p["trace"])==3
+          assert p["trace"][0]["previous_hash"]=="GENESIS"
+          assert p["final_trace_hash"]==p["trace"][-1]["trace_hash"]
+          assert p["external_calls_executed"] is False
+          assert p["production_live_claimed"] is False
+          assert p["avatar_status"]["status"]=="UNQUALIFIED"
+          assert all(x["presentation_status"]=="HOLD" for x in p["trace"])
+          print("F173_SESSION_REPLAY_BOUNDARIES=PASS")
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: f173-session-replay-canary
+          path: artifacts/f173_session_replay_canary.json
+          if-no-files-found: error
+          retention-days: 30
