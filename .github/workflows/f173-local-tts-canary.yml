@@ -1,0 +1,57 @@
+name: F173 AELYS Local TTS Canary
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - "canary/local_tts_canary.py"
+      - ".github/workflows/f173-local-tts-canary.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  tts-canary:
+    runs-on: ubuntu-latest
+    timeout-minutes: 7
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install local offline TTS engine
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y --no-install-recommends espeak-ng
+      - name: Execute local TTS canary
+        run: python canary/local_tts_canary.py
+      - name: Verify audio evidence boundaries
+        run: |
+          python - <<'PY'
+          import json, pathlib
+          p=json.load(open("artifacts/f173_tts_canary.json"))
+          wav=pathlib.Path("artifacts/f173_tts_canary.wav")
+          assert p["scenario_id"]=="F173-TTS-CANARY-001"
+          assert wav.exists() and wav.stat().st_size==p["wav_bytes"]
+          assert p["wav_bytes"]>44
+          assert len(p["wav_sha256"])==64
+          assert p["audio"]["sample_rate_hz"]>0
+          assert p["audio"]["frame_count"]>0
+          assert p["audio"]["duration_s"]>0
+          assert p["external_service_used"] is False
+          assert p["paid_provider_used"] is False
+          assert p["production_live_claimed"] is False
+          assert p["voice_identity_claimed"] is False
+          assert p["training_executed"] is False
+          assert p["weights_changed"] is False
+          print("F173_LOCAL_TTS_BOUNDARIES=PASS")
+          PY
+      - name: Upload local TTS evidence
+        uses: actions/upload-artifact@v4
+        with:
+          name: f173-local-tts-canary
+          path: |
+            artifacts/f173_tts_canary.wav
+            artifacts/f173_tts_canary.json
+          if-no-files-found: error
+          retention-days: 30
