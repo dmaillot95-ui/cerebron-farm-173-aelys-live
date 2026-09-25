@@ -41,7 +41,7 @@ def test_f152_never_routes_rdx():
 
 def test_runtime_qualification_stays_evidence_safe():
     q=json.loads((Path(__file__).resolve().parents[1] / "config/runtime-qualification.json").read_text())
-    assert q["overall_status"]=="LOCAL_LIVE_LOOP_TTS_SESSION_REPLAY_CANARIES_PASS_EXTERNAL_RUNTIME_UNQUALIFIED"
+    assert q["overall_status"]=="LOCAL_LOOP_TTS_REPLAY_HTTP_CANARIES_PASS_EXTERNAL_RUNTIME_UNQUALIFIED"
     assert q["invariants"]["production_live"] is False
     assert q["invariants"]["training_executed"] is False
     assert q["invariants"]["weights_changed"] is False
@@ -91,3 +91,19 @@ def test_local_session_replay_canary_evidence_is_bounded():
     assert r["production_live_claimed"] is False
     assert r["avatar_runtime"]=="UNQUALIFIED"
     assert r["presentation_status"]=="HOLD"
+
+
+def test_local_http_loopback_canary_evidence_is_bounded():
+    q=json.loads((Path(__file__).resolve().parents[1] / "config/runtime-qualification.json").read_text())
+    h=q["local_http_loopback_canary"]
+    assert h["status"]=="PASS"
+    assert h["run_id"]==36164204308
+    assert h["transport"]=="HTTP_LOOPBACK"
+    assert h["bind"]=="127.0.0.1"
+    assert h["http_status"]==200
+    assert h["presentation_status"]=="HOLD"
+    assert h["result_sha256"]=="c9b21d56586df27bd4dee8e9964b170fb241fdec9b9f91822068d86ed77b8450"
+    assert h["external_endpoint_used"] is False
+    assert h["paid_provider_used"] is False
+    assert h["production_live_claimed"] is False
+    assert h["raw_user_ref_persisted"] is False
