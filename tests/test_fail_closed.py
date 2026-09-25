@@ -29,3 +29,11 @@ def test_avatar_fails_closed_until_runtime_canary():
     assert status()["status"]=="UNQUALIFIED"
     with pytest.raises(AvatarAdapterError):
         speak("hello")
+
+
+def test_f152_never_routes_rdx():
+    routing=json.loads((Path(__file__).resolve().parents[1] / "config/live-routing.json").read_text())
+    assert "F152_RDX" not in routing["knowledge_route"]
+    assert "RDX_EXCHANGE" in routing["knowledge_route"]
+    assert routing["routing_invariants"]["f152_identity"]=="BETA"
+    assert routing["routing_invariants"]["f152_must_not_route_rdx"] is True
