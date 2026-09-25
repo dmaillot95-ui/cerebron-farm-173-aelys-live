@@ -1,0 +1,35 @@
+name: F173 AELYS LIVE Selftest
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - "config/**"
+      - "schemas/**"
+      - "gateway/**"
+      - "presenter/**"
+      - "avatar/**"
+      - "tests/**"
+      - ".github/workflows/f173-selftest.yml"
+permissions:
+  contents: read
+jobs:
+  selftest:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: python -m pip install --quiet pytest
+      - run: pytest -q
+      - name: Verify governance locks
+        run: |
+          python - <<'PY'
+          import json
+          p=json.load(open("config/live-routing.json"))
+          assert p["gates"]["global_f72"]=="FAIL"
+          assert p["gates"]["m4_gold"]=="BLOCKED"
+          assert p["gates"]["rdx_neural_training"]=="DENY"
+          assert p["gates"]["m6_training"]=="DENY"
+          print("F173_GOVERNANCE_LOCKS=PASS")
+          PY
