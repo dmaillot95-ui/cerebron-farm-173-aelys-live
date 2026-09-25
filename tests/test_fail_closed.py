@@ -37,3 +37,16 @@ def test_f152_never_routes_rdx():
     assert "RDX_EXCHANGE" in routing["knowledge_route"]
     assert routing["routing_invariants"]["f152_identity"]=="BETA"
     assert routing["routing_invariants"]["f152_must_not_route_rdx"] is True
+
+
+def test_runtime_qualification_stays_evidence_safe():
+    q=json.loads((Path(__file__).resolve().parents[1] / "config/runtime-qualification.json").read_text())
+    assert q["overall_status"]=="LOCAL_CONTRACTS_QUALIFIED_EXTERNAL_RUNTIME_UNQUALIFIED"
+    assert q["invariants"]["production_live"] is False
+    assert q["invariants"]["training_executed"] is False
+    assert q["invariants"]["weights_changed"] is False
+    assert q["invariants"]["automatic_external_calls"] is False
+    assert q["invariants"]["f152_routes_rdx"] is False
+    assert q["invariants"]["rdx_provider"]=="RDX_EXCHANGE"
+    assert "tts" in q["unqualified_external"]
+    assert "avatar_runtime" in q["unqualified_external"]
