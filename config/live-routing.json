@@ -9,7 +9,7 @@
     "voice": "UNQUALIFIED"
   },
   "knowledge_route": [
-    "F152_RDX",
+    "RDX_EXCHANGE",
     "NEXUS_ROUTER",
     "F114_CANONICAL_INDEX",
     "F115_VECTOR_MEMORY",
@@ -32,5 +32,10 @@
     "m4_gold": "BLOCKED",
     "rdx_neural_training": "DENY",
     "m6_training": "DENY"
+  },
+  "routing_invariants": {
+    "f152_identity": "BETA",
+    "f152_must_not_route_rdx": true,
+    "rdx_provider": "RDX_EXCHANGE"
   }
 }
