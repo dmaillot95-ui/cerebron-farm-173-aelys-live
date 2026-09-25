@@ -13,7 +13,7 @@ F173 EVENT INGRESS
         ↓
 NEXUS / CÉRÉBRON ROUTER
         ↓
-F152 RDX
+CÉRÉBRON RDX Exchange
 F114 canonical index
 F115 semantic recall
 F119 evidence archive
@@ -43,7 +43,7 @@ CLIENT / LIVE OUTPUT
 ## Current connection state
 
 - GitHub farm repository: PRESENT
-- unified plugin contract: BOUND TO MASTER CONTROL PLANE
+- unified plugin contract: DECLARED — runtime still unqualified
 - Hugging Face private memory namespace: `colony/AELYS-LIVE/`
 - TikTok adapter: NOT YET QUALIFIED
 - private-client web adapter: NOT YET QUALIFIED
@@ -65,4 +65,4 @@ CLIENT / LIVE OUTPUT
 - `avatar.speak`
 - `audit.review`
 
-This repository is the integration farm. It does not duplicate F152 or the memory farms.
+This repository is the integration farm. RDX is the separate `dmaillot95-ui/cerebron-rdx-exchange` service/repository; F152 remains BETA and is not used as the RDX provider.
