@@ -1,0 +1,52 @@
+name: F173 AELYS Local Live Loop Canary
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - "canary/**"
+      - "gateway/**"
+      - "presenter/**"
+      - "avatar/**"
+      - "tests/test_local_live_loop_canary.py"
+      - ".github/workflows/f173-local-live-canary.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  local-canary:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Execute local fail-closed canary
+        run: PYTHONPATH=. python canary/local_live_loop_canary.py
+      - name: Run canary tests
+        run: PYTHONPATH=. python -m pytest -q tests/test_local_live_loop_canary.py
+      - name: Verify canary boundaries
+        run: |
+          python - <<'PY'
+          import json
+          p=json.load(open("artifacts/f173_local_live_loop_canary.json"))
+          assert p["mode"]=="LOCAL_FAIL_CLOSED_CANARY"
+          assert p["external_calls_executed"] is False
+          assert p["production_live_claimed"] is False
+          assert p["training_executed"] is False
+          assert p["weights_changed"] is False
+          assert p["presentation"]["status"]=="HOLD"
+          assert p["avatar_status"]["status"]=="UNQUALIFIED"
+          assert p["prepared_requests"][0]["provider"]=="RDX_EXCHANGE"
+          assert len(p["result_sha256"])==64
+          print("F173_LOCAL_CANARY_BOUNDARIES=PASS")
+          PY
+      - name: Upload canary artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: f173-local-live-loop-canary
+          path: artifacts/f173_local_live_loop_canary.json
+          if-no-files-found: error
+          retention-days: 30
