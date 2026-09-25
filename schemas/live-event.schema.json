@@ -1,0 +1,18 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://cerebron.local/schemas/f173-live-event-v1.json",
+  "title": "F173 Live Event V1",
+  "type": "object",
+  "required": ["event_id", "source", "event_type", "timestamp", "content"],
+  "properties": {
+    "event_id": {"type": "string", "minLength": 1},
+    "source": {"enum": ["private_client_web", "tiktok_live", "local_test"]},
+    "event_type": {"enum": ["question", "message", "command"]},
+    "timestamp": {"type": "string", "minLength": 1},
+    "content": {"type": "string", "minLength": 1, "maxLength": 4000},
+    "user_ref": {"type": ["string", "null"]},
+    "tenant_id": {"type": ["string", "null"]},
+    "consent_scope": {"type": ["string", "null"]}
+  },
+  "additionalProperties": false
+}
