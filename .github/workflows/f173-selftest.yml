@@ -21,7 +21,7 @@ jobs:
         with:
           python-version: "3.12"
       - run: python -m pip install --quiet pytest
-      - run: pytest -q
+      - run: PYTHONPATH=. pytest -q
       - name: Verify governance locks
         run: |
           python - <<'PY'
