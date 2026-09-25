@@ -41,7 +41,7 @@ def test_f152_never_routes_rdx():
 
 def test_runtime_qualification_stays_evidence_safe():
     q=json.loads((Path(__file__).resolve().parents[1] / "config/runtime-qualification.json").read_text())
-    assert q["overall_status"]=="LOCAL_LIVE_LOOP_CANARY_PASS_EXTERNAL_RUNTIME_UNQUALIFIED"
+    assert q["overall_status"]=="LOCAL_LIVE_LOOP_TTS_SESSION_REPLAY_CANARIES_PASS_EXTERNAL_RUNTIME_UNQUALIFIED"
     assert q["invariants"]["production_live"] is False
     assert q["invariants"]["training_executed"] is False
     assert q["invariants"]["weights_changed"] is False
