@@ -41,7 +41,7 @@ def test_f152_never_routes_rdx():
 
 def test_runtime_qualification_stays_evidence_safe():
     q=json.loads((Path(__file__).resolve().parents[1] / "config/runtime-qualification.json").read_text())
-    assert q["overall_status"]=="LOCAL_CONTRACTS_QUALIFIED_EXTERNAL_RUNTIME_UNQUALIFIED"
+    assert q["overall_status"]=="LOCAL_LIVE_LOOP_CANARY_PASS_EXTERNAL_RUNTIME_UNQUALIFIED"
     assert q["invariants"]["production_live"] is False
     assert q["invariants"]["training_executed"] is False
     assert q["invariants"]["weights_changed"] is False
@@ -50,3 +50,15 @@ def test_runtime_qualification_stays_evidence_safe():
     assert q["invariants"]["rdx_provider"]=="RDX_EXCHANGE"
     assert "tts" in q["unqualified_external"]
     assert "avatar_runtime" in q["unqualified_external"]
+
+
+def test_local_live_loop_canary_evidence_is_fail_closed():
+    q=json.loads((Path(__file__).resolve().parents[1] / "config/runtime-qualification.json").read_text())
+    c=q["local_live_loop_canary"]
+    assert c["status"]=="PASS"
+    assert c["run_id"]==36162553038
+    assert c["result_sha256"]=="a860b0f9becd088496c6580b6febd608af0964e73c10b6ac04452048326fb3a4"
+    assert c["external_calls_executed"] is False
+    assert c["production_live_claimed"] is False
+    assert c["avatar_runtime"]=="UNQUALIFIED"
+    assert c["presentation_status"]=="HOLD"
