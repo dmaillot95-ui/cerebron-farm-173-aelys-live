@@ -1,0 +1,2 @@
+trigger=2026-09-25
+purpose=F173_INITIAL_SELFTEST
